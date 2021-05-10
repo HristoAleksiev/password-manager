@@ -39,13 +39,12 @@ user_email_entry.grid(column=1, row=2, columnspan=2, sticky="ew")
 password_entry = Entry(width=21)
 password_entry.grid(column=1, row=3, sticky="ew", padx=1)
 
-generate_button = Button(text="Generate Password")
-generate_button.grid(column=2, row=3, sticky="w")
-
 add_button = Button(text="Add", width=36)
 add_button.grid(column=1, row=4, columnspan=2, sticky="ew")
 
 # Column 3
 
+generate_button = Button(text="Generate Password")
+generate_button.grid(column=2, row=3, sticky="w")
 
 mainloop()
