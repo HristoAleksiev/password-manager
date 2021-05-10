@@ -8,7 +8,7 @@ from tkinter import messagebox
 
 
 def ingest_form_data():
-    if website_entry.get() == "" or user_email_entry.get() == "" or password_entry.get() == "":
+    if website_entry.get().strip() == "" or user_email_entry.get().strip() == "" or password_entry.get().strip() == "":
         messagebox.showwarning(title="Warning",
                                message="You are leaving an empty field. Please provide all the information in the form!")
     else:
