@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
@@ -7,14 +8,25 @@ from tkinter import *
 
 
 def ingest_form_data():
-    with open("passwords-database.txt", "a") as pass_db:
-        pass_db.write(f"{website_entry.get()}  |  ")
-        website_entry.delete(0, END)
-        pass_db.write(f"{user_email_entry.get()}  |  ")
-        user_email_entry.delete(0, END)
-        pass_db.write(f"{password_entry.get()}\n")
-        password_entry.delete(0, END)
-        website_entry.focus()
+    if website_entry.get() == "" or user_email_entry.get() == "" or password_entry.get() == "":
+        messagebox.showwarning(title="Warning",
+                               message="You are leaving an empty field. Please provide all the information in the form!")
+    else:
+        user_confirmation = messagebox.askokcancel(title="Details Confirmation",
+                                                   message=f"Are you sure you want to save the credentials:"
+                                                           f" email: {user_email_entry.get()} "
+                                                           f"and password: {password_entry.get()}"
+                                                           f" for the website: {website_entry.get()}")
+
+        if user_confirmation:
+            with open("passwords-database.txt", "a") as pass_db:
+                pass_db.write(f"{website_entry.get()}  |  ")
+                website_entry.delete(0, END)
+                pass_db.write(f"{user_email_entry.get()}  |  ")
+                user_email_entry.delete(0, END)
+                pass_db.write(f"{password_entry.get()}\n")
+                password_entry.delete(0, END)
+                website_entry.focus()
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -46,6 +58,7 @@ website_entry.focus()
 website_entry.grid(column=1, row=1, columnspan=2, sticky="ew")
 
 user_email_entry = Entry(width=35)
+# .insert() here ?
 user_email_entry.grid(column=1, row=2, columnspan=2, sticky="ew")
 
 password_entry = Entry(width=21)
