@@ -4,7 +4,7 @@ import random
 import pyperclip
 import json
 
-# ---------------------------- PASSWORD GENERATOR ------------------------------- #
+# --------------------- PASSWORD GENERATOR ------------------------ #
 
 letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -25,7 +25,7 @@ def generate_password():
     password_entry.insert(0, string=final_password)
     pyperclip.copy(final_password)
 
-# ---------------------------- SAVE PASSWORD ------------------------------- #
+# ------------------------ SAVE PASSWORD --------------------------- #
 
 
 def ingest_form_data():
@@ -63,6 +63,32 @@ def ingest_form_data():
                 user_email_entry.delete(0, END)
                 password_entry.delete(0, END)
                 website_entry.focus()
+
+# ------------------------ SAVE PASSWORD --------------------------- #
+
+
+def get_password():
+    searching_site = website_entry.get()
+
+    try:
+        with open("passwords-database.json", "r") as data:
+            loaded_data = json.load(data)
+    except FileNotFoundError:
+        messagebox.showerror(title="Missing file to read!",
+                             message="There is no database file found from which to read, "
+                                     "please save some passwords first.")
+    else:
+        try:
+            found_data = loaded_data[searching_site]
+        except KeyError:
+            messagebox.showerror(title="No credentials found!",
+                                 message="There are no saved credentials for the website you are searching for!\n"
+                                         "Please fill the form to save your new credentials.")
+        else:
+            messagebox.showinfo(title=searching_site,
+                                message=f"These are the saved credentials for the searched website:\n"
+                                        f"    {found_data['email']}\n"
+                                        f"    {found_data['password']}")
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -105,7 +131,7 @@ add_button.grid(column=1, row=4, columnspan=2, sticky="ew")
 
 # Column 3
 
-search_button = Button(text="Search")
+search_button = Button(text="Search", command=get_password)
 search_button.grid(column=2, row=1, sticky="ew")
 
 generate_button = Button(text="Generate Password", command=generate_password)
