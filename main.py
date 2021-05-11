@@ -51,11 +51,11 @@ def ingest_form_data():
             try:
                 with open("passwords-database.json", "r") as pass_db:
                     loaded_data = json.load(pass_db)
-                    loaded_data.update(data_to_dump)
             except FileNotFoundError:
                 with open("passwords-database.json", "w") as pass_db:
                     json.dump(data_to_dump, pass_db, indent=4)
             else:
+                loaded_data.update(data_to_dump)
                 with open("passwords-database.json", "w") as pass_db:
                     json.dump(loaded_data, pass_db, indent=4)
             finally:
