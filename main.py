@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -39,12 +40,27 @@ def ingest_form_data():
                                                            f" for the website: {website_entry.get()}")
 
         if user_confirmation:
-            with open("passwords-database.txt", "a") as pass_db:
-                pass_db.write(f"{website_entry.get()}  |  ")
+
+            data_to_dump = {
+                website_entry.get(): {
+                        "email": user_email_entry.get(),
+                        "password": password_entry.get()
+                }
+            }
+
+            try:
+                with open("passwords-database.json", "r") as pass_db:
+                    loaded_data = json.load(pass_db)
+                    loaded_data.update(data_to_dump)
+            except FileNotFoundError:
+                with open("passwords-database.json", "w") as pass_db:
+                    json.dump(data_to_dump, pass_db, indent=4)
+            else:
+                with open("passwords-database.json", "w") as pass_db:
+                    json.dump(loaded_data, pass_db, indent=4)
+            finally:
                 website_entry.delete(0, END)
-                pass_db.write(f"{user_email_entry.get()}  |  ")
                 user_email_entry.delete(0, END)
-                pass_db.write(f"{password_entry.get()}\n")
                 password_entry.delete(0, END)
                 website_entry.focus()
 
@@ -75,7 +91,7 @@ canvas.grid(column=1, row=0)
 
 website_entry = Entry(width=35)
 website_entry.focus()
-website_entry.grid(column=1, row=1, columnspan=2, sticky="ew")
+website_entry.grid(column=1, row=1, sticky="ew")
 
 user_email_entry = Entry(width=35)
 # .insert() here ?
@@ -88,6 +104,9 @@ add_button = Button(text="Add", width=36, command=ingest_form_data)
 add_button.grid(column=1, row=4, columnspan=2, sticky="ew")
 
 # Column 3
+
+search_button = Button(text="Search")
+search_button.grid(column=2, row=1, sticky="ew")
 
 generate_button = Button(text="Generate Password", command=generate_password)
 generate_button.grid(column=2, row=3, sticky="w")
