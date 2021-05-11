@@ -6,7 +6,9 @@ import json
 
 # --------------------- PASSWORD GENERATOR ------------------------ #
 
-letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+           'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+           'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
@@ -31,7 +33,8 @@ def generate_password():
 def ingest_form_data():
     if website_entry.get().strip() == "" or user_email_entry.get().strip() == "" or password_entry.get().strip() == "":
         messagebox.showwarning(title="Warning",
-                               message="You are leaving an empty field. Please provide all the information in the form!")
+                               message="You are leaving an empty field. "
+                                       "Please provide all the information in the form!")
     else:
         user_confirmation = messagebox.askokcancel(title="Details Confirmation",
                                                    message=f"Are you sure you want to save the credentials:"
@@ -120,7 +123,6 @@ website_entry.focus()
 website_entry.grid(column=1, row=1, sticky="ew")
 
 user_email_entry = Entry(width=35)
-# .insert() here ?
 user_email_entry.grid(column=1, row=2, columnspan=2, sticky="ew")
 
 password_entry = Entry(width=21)
