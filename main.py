@@ -81,17 +81,16 @@ def get_password():
                              message="There is no database file found from which to read, "
                                      "please save some passwords first.")
     else:
-        try:
+        if searching_site in loaded_data:
             found_data = loaded_data[searching_site]
-        except KeyError:
-            messagebox.showerror(title="No credentials found!",
-                                 message="There are no saved credentials for the website you are searching for!\n"
-                                         "Please fill the form to save your new credentials.")
-        else:
             messagebox.showinfo(title=searching_site,
                                 message=f"These are the saved credentials for the searched website:\n"
                                         f"    {found_data['email']}\n"
                                         f"    {found_data['password']}")
+        else:
+            messagebox.showerror(title="No credentials found!",
+                                 message="There are no saved credentials for the website you are searching for!\n"
+                                         "Please fill the form to save your new credentials.")
 
 # ---------------------------- UI SETUP ------------------------------- #
 
